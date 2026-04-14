@@ -69,3 +69,26 @@ python3 script/pred_edge_image.py --modelfile output_compare/mvitv2_tiny_wo_aug/
 python3 script/pred_edge_image.py --modelfile output_compare/vit_small_wo_aug/model_final.pth 
 python3 script/pred_edge_image.py --modelfile output_compare/vit_small_w_aug/model_final.pth 
 ```
+
+
+
+
+#　自分の研究
+
+## 画像フォルダ一括エッジ生成
+```
+cd docker
+./run.sh
+```
+```
+python3 script/batch_edge_dir.py --input_dir /workspace/zikken/photos --output_dir /workspace/zikken/output --device cuda --mode mean
+```
+
+### 使い分け例
+```
+python3 script/batch_edge_dir.py --input_dir /workspace/zikken/photos --output_dir /workspace/zikken/output --device cuda --mode bdcn
+python3 script/batch_edge_dir.py --input_dir /workspace/zikken/photos --output_dir /workspace/zikken/output --device cuda --mode hed
+python3 script/batch_edge_dir.py --input_dir /workspace/zikken/photos --output_dir /workspace/zikken/output --device cuda --mode se
+python3 script/batch_edge_dir.py --input_dir /workspace/zikken/photos --output_dir /workspace/zikken/output --device cuda --mode max
+python3 script/batch_edge_dir.py --input_dir /workspace/zikken/photos --output_dir /workspace/zikken/output --device cuda --mode stack
+```
