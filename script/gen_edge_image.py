@@ -20,6 +20,32 @@ import torchvision
 
 
 def gen_edge_image(image_bgr, device='cuda'):
+    """
+    入力された BGR 画像から 3 種類のエッジ検出結果を統合し、3 チャンネルのエッジ画像を生成する。
+
+    この関数は以下の順で処理を行う:
+    1. `detect_SE_edge(se_model, image_bgr)` で SE ベースのエッジを推定する。
+    2. `detect_BDCN_edge(bdcn_model, image_bgr, device)` で BDCN ベースのエッジを推定する。
+    3. `detect_hed_edge(hed_model, image_bgr, device)` で HED ベースのエッジを推定する。
+    4. 3 つの結果を `[bdcn_result, hed_result, se_result]` の順でスタックし、
+        `(H, W, 3)` 形式へ転置後、0-255 の `uint8` 画像へ変換して返す。
+
+    Args:
+         image_bgr (numpy.ndarray):
+              入力画像。OpenCV 形式の BGR 画像を想定する。
+         device (str, optional):
+              推論に使用するデバイス指定。例: `'cuda'`, `'cpu'`。
+              既定値は `'cuda'`。
+
+    Returns:
+         numpy.ndarray:
+              3 チャンネルのエッジ画像 (`dtype=uint8`)。
+              チャンネル順は `[BDCN, HED, SE]`。
+
+    Notes:
+         - 本関数は外部で初期化済みの `se_model`, `bdcn_model`, `hed_model` に依存する。
+         - 各 `detect_*_edge` の出力は同一解像度かつ正規化済み（通常 0-1 範囲）であることを前提とする。
+    """
     se_result = detect_SE_edge(se_model, image_bgr)
     bdcn_result = detect_BDCN_edge(bdcn_model, image_bgr, device)
     hed_result = detect_hed_edge(hed_model, image_bgr, device)

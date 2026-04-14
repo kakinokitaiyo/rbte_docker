@@ -6,6 +6,12 @@ else
     DATASET_MOUNT_COMMAND=""
 fi
 
+if [ -e $SCRIPT_DIR/../../zikken ]; then
+    ZIKKEN_MOUNT_COMMAND="-v $SCRIPT_DIR/../../zikken:/zikken"
+else
+    ZIKKEN_MOUNT_COMMAND=""
+fi
+
 set -x
 
 docker run -it --rm \
@@ -21,6 +27,7 @@ docker run -it --rm \
 -v $SCRIPT_DIR/..:/userdir \
 -v $SCRIPT_DIR/homedir:/home/`whoami`/ \
 $DATASET_MOUNT_COMMAND \
+$ZIKKEN_MOUNT_COMMAND \
 -w /userdir \
 --name im2rbte \
 im2rbte bash

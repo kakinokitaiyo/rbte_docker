@@ -10,7 +10,7 @@ RUN sed -i 's@archive.ubuntu.com@ftp.jaist.ac.jp/pub/Linux@g' /etc/apt/sources.l
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3 python3-distutils curl git python-is-python3 python3-dev git libopencv-dev && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
-RUN curl https://bootstrap.pypa.io/get-pip.py | python3
+RUN curl https://bootstrap.pypa.io/pip/3.8/get-pip.py | python3
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
     pip cache purge
 RUN pip install pyyaml Pillow numpy opencv-contrib-python scikit-image segmentation-models-pytorch pandas tensorboard
